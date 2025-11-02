@@ -393,7 +393,7 @@ if st.checkbox("Mostrar exemplo de cálculo manual"):
     manual_pred = modelo.intercept_ + np.sum(modelo.coef_ * sample_X)
     
     st.markdown(f"""
-    <h4>⌖ Exemplo para o jogo {sample_idx + 1}</h4>
+    <h5>Exemplo para o {sample_idx + 1}º jogo</h5>
     <ul style="list-style-type:none; padding-left:0; line-height:1.6;">
     <li>• <b>Valores reais:</b> {X.iloc[sample_idx].to_dict()}</li>
     <li>• <b>Predição do modelo:</b> {y_pred[sample_idx]:.2f}</li>
