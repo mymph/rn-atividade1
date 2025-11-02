@@ -341,21 +341,22 @@ st.markdown("### ☘️ Validação do Modelo")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### ⦾ Verificação Rápida")
-    st.markdown("""
-    **Para validar se o modelo está correto:**
+    st.markdown("#### ⌖ Verificação rápida")
 
-    **R² entre 0–1**: Quanto mais próximo de 1, melhor.  
-    **Coeficientes coerentes**: Ex.: mais assistências → mais pontos.  
-    **Resíduos aleatórios**: Sem padrões óbvios no gráfico.  
-    **Previsões próximas da linha**: No gráfico Real vs. Previsto.
-    """)
+    st.markdown("""
+    <ul style="list-style-type:none; padding-left:0;">
+    <li>• <b>R² entre 0–1</b>: quanto mais próximo de 1, melhor</li>
+    <li>• <b>Coeficientes coerentes</b>: ex.: mais assistências → mais pontos</li>
+    <li>• <b>Resíduos aleatórios</b>: sem padrões óbvios no gráfico</li>
+    <li>• <b>Previsões próximas da linha</b>: no gráfico Real vs. Previsto</li>
+    </ul>
+    """, unsafe_allow_html=True)
 
 # MAIS ESPAÇO entre as subseções de validação
 st.markdown('<div class="spacing-medium"></div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown("#### ⦾ Teste de Sanidade")
+    st.markdown("#### ⌖ Teste de Sanidade")
     
     # Teste simples com dados conhecidos
     if st.button("Rodar Teste de Validação"):
@@ -384,7 +385,7 @@ with col2:
 st.markdown('<div class="spacing-medium"></div>', unsafe_allow_html=True)
 
 # Exemplo de cálculo manual para validação
-st.markdown("#### ⦾ Cálculo Manual de Validação")
+st.markdown("#### ⌖ Cálculo Manual de Validação")
 if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
