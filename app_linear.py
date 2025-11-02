@@ -125,24 +125,24 @@ with st.sidebar:
 
 # === SEÇÃO DE DADOS ===
 st.markdown("---")
-st.markdown("### 📊 Visualização dos Dados")
+st.markdown("### 🍀 Visualização dos Dados")
 
-with st.expander("🏀 Clique para ver os dados da temporada", expanded=False):
+with st.expander("Clique para ver os dados da temporada", expanded=False):
     col1, col2 = st.columns([3,1])
     
     with col1:
         st.dataframe(df, use_container_width=True)
     
     with col2:
-        st.markdown("#### 📈 Estatísticas Gerais")
-        st.metric("Total de Jogos", len(df))
+        st.markdown("#### Estatísticas Gerais")
+        st.metric("☘️ Total de Jogos", len(df))
         st.metric("🏆 Vitórias", len(df[df["Vitória/Derrota"] == "W"]))
         st.metric("💔 Derrotas", len(df[df["Vitória/Derrota"] == "L"]))
-        st.metric("🎯 Pontos por Jogo", f"{df['Pontos'].mean():.1f}")
+        st.metric("💚 Pontos por Jogo", f"{df['Pontos'].mean():.1f}")
 
 # === SELEÇÃO DE VARIÁVEIS ===
 st.markdown("---")
-st.markdown("### ⚙️ Configuração do Modelo de Regressão")
+st.markdown("### 🍀 Configuração do Modelo de Regressão")
 
 # Definir variáveis que fazem sentido para o modelo (removendo IDs e colunas não numéricas)
 vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto", "Vitória/Derrota"]
@@ -201,7 +201,7 @@ modelo.fit(X, y)
 
 # === RESULTADOS ===
 st.markdown("---")
-st.markdown("### 📈 Resultados da Regressão Linear")
+st.markdown("### 🍀 Resultados da Regressão Linear")
 
 # Métricas em cards
 y_pred = modelo.predict(X)
@@ -262,9 +262,9 @@ st.dataframe(coef_df[["Variável", "Coeficiente", "Influência"]], use_container
 
 # === GRÁFICOS ===
 st.markdown("---")
-st.markdown("### 📊 Visualizações")
+st.markdown("### 🍀 Visualizações")
 
-tab1, tab2, tab3 = st.tabs(["📈 Dispersão", "🔍 Reais vs Previstos", "📅 Tendência Temporal"])
+tab1, tab2, tab3 = st.tabs(["Dispersão", "Reais vs Previstos", "Tendência Temporal"])
 
 with tab1:
     if len(x_cols) == 1:
@@ -278,7 +278,7 @@ with tab1:
         ax.grid(True, alpha=0.3)
         st.pyplot(fig)
     else:
-        st.info("📊 O gráfico de dispersão é exibido apenas quando há uma única variável independente.")
+        st.info("✗ O gráfico de dispersão é exibido apenas quando há uma única variável independente.")
         
         # Mostrar matriz de correlação para múltiplas variáveis
         st.markdown("#### 🔗 Matriz de Correlação")
@@ -313,7 +313,7 @@ with tab3:
 
 # === VALIDAÇÃO DO MODELO ===
 st.markdown("---")
-st.markdown("### ✅ Validação do Modelo")
+st.markdown("### 🍀 Validação do Modelo")
 
 col1, col2 = st.columns(2)
 
@@ -347,7 +347,7 @@ with col2:
         r2_test = r2_score(y_test, y_pred_test)
         
         st.success(f"✓ R² no conjunto de teste: {r2_test:.3f}")
-        st.info(f"📊 Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
+        st.info(f"  Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
         
         if abs(r2 - r2_test) < 0.2:
             st.success("✓ Modelo está generalizando bem!")
