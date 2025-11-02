@@ -104,7 +104,7 @@ df = carregar_dados()
 
 # === SIDEBAR PARA SELEÇÃO DE VARIÁVEIS ===
 with st.sidebar:
-    st.markdown("### ⚙️ Configurações do Modelo")
+    st.markdown("### Configurações do Modelo")
     st.markdown("---")
     
     # Filtro de jogos por data
@@ -125,7 +125,7 @@ with st.sidebar:
 
 # === SEÇÃO DE DADOS ===
 st.markdown("---")
-st.markdown("### 📊 Visualização dos Dados")
+st.markdown("### Visualização dos Dados")
 
 with st.expander("Clique para ver os dados da temporada", expanded=False):
     col1, col2 = st.columns([3,1])
@@ -134,7 +134,7 @@ with st.expander("Clique para ver os dados da temporada", expanded=False):
         st.dataframe(df, use_container_width=True)
     
     with col2:
-        st.markdown("#### 📈 Estatísticas Gerais")
+        st.markdown("#### Estatísticas Gerais")
         st.metric("Total de Jogos", len(df))
         st.metric("Vitórias", len(df[df["Vitória/Derrota"] == "W"]))
         st.metric("Derrotas", len(df[df["Vitória/Derrota"] == "L"]))
@@ -142,7 +142,7 @@ with st.expander("Clique para ver os dados da temporada", expanded=False):
 
 # === SELEÇÃO DE VARIÁVEIS ===
 st.markdown("---")
-st.markdown("### 🎯 Configuração do Modelo de Regressão")
+st.markdown("### Configuração do Modelo de Regressão")
 
 # Definir variáveis que fazem sentido para o modelo (removendo IDs e colunas não numéricas)
 vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto", "Vitória/Derrota"]
@@ -179,7 +179,7 @@ with col2:
         # Mostrar apenas variáveis que existem no dataframe
         available_vars = [v for v in variables if v in vars_permitidas]
         if available_vars:
-            with st.expander(f"📁 {category}", expanded=False):
+            with st.expander(f"{category}", expanded=False):
                 for var in available_vars:
                     if st.checkbox(var, key=f"check_{var}"):
                         selected_vars.append(var)
@@ -189,7 +189,7 @@ x_cols = selected_vars
 
 if len(x_cols) == 0:
     st.warning("⚠️ Selecione ao menos uma variável independente para continuar.")
-    st.info("💡 **Dica:** Tente selecionar variáveis como 'Assistências', 'Rebotes' ou 'Percentual de Arremesso' para prever 'Pontos'")
+    st.info("💡 **Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
     st.stop()
 
 # === TREINAMENTO DO MODELO ===
@@ -238,7 +238,7 @@ with col3:
     """, unsafe_allow_html=True)
 
 # Equação da regressão
-st.markdown("#### 🧮 Equação da Regressão")
+st.markdown("#### Equação da Regressão")
 eq_parts = [f"{modelo.intercept_:.2f}"]
 for coef, col in zip(modelo.coef_, x_cols):
     eq_parts.append(f"{coef:+.2f}×{col}")
@@ -247,7 +247,7 @@ eq = f"{y_col} = " + " ".join(eq_parts)
 st.code(eq, language="latex")
 
 # Coeficientes
-st.markdown("#### 📊 Impacto das Variáveis")
+st.markdown("#### Impacto das Variáveis")
 coef_df = pd.DataFrame({
     "Variável": x_cols,
     "Coeficiente": modelo.coef_,
@@ -262,7 +262,7 @@ st.dataframe(coef_df[["Variável", "Coeficiente", "Influência"]], use_container
 
 # === GRÁFICOS ===
 st.markdown("---")
-st.markdown("### 📊 Visualizações")
+st.markdown("### Visualizações")
 
 tab1, tab2, tab3 = st.tabs(["📈 Dispersão", "🔍 Reais vs Previstos", "📅 Tendência Temporal"])
 
@@ -314,7 +314,7 @@ with tab3:
 # === FOOTER ===
 # === VALIDAÇÃO DO MODELO ===
 st.markdown("---")
-st.markdown("### ✅ Validação do Modelo")
+st.markdown("### Validação do Modelo")
 
 col1, col2 = st.columns(2)
 
@@ -323,14 +323,14 @@ with col1:
     st.markdown("""
     **Para validar se o modelo está correto:**
     
-    - ✅ **R² entre 0-1**: Quanto mais próximo de 1, melhor
-    - ✅ **Coeficientes coerentes**: Ex: Mais assistências → Mais pontos (coef positivo)
-    - ✅ **Resíduos aleatórios**: Sem padrões óbvios no gráfico
-    - ✅ **Previsões próximas da linha**: No gráfico Real vs Previsto
+    - **R² entre 0-1**: Quanto mais próximo de 1, melhor
+    - **Coeficientes coerentes**: Ex: Mais assistências → Mais pontos (coef positivo)
+    - **Resíduos aleatórios**: Sem padrões óbvios no gráfico
+    - **Previsões próximas da linha**: No gráfico Real vs Previsto
     """)
 
 with col2:
-    st.markdown("#### 🧪 Teste de Sanidade")
+    st.markdown("#### Teste de Sanidade")
     
     # Teste simples com dados conhecidos
     if st.button("Rodar Teste de Validação"):
@@ -347,16 +347,16 @@ with col2:
         y_pred_test = model_test.predict(X_test)
         r2_test = r2_score(y_test, y_pred_test)
         
-        st.success(f"✅ R² no conjunto de teste: {r2_test:.3f}")
-        st.info(f"📊 Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
+        st.success(f"R² no conjunto de teste: {r2_test:.3f}")
+        st.info(f"Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
         
         if abs(r2 - r2_test) < 0.2:
-            st.success("🎯 Modelo está generalizando bem!")
+            st.success("✅ Modelo está generalizando bem!")
         else:
             st.warning("⚠️ Pode haver overfitting - diferença grande entre treino e teste")
 
 # Exemplo de cálculo manual para validação
-st.markdown("#### 🔍 Cálculo Manual de Validação")
+st.markdown("#### Cálculo Manual de Validação")
 if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
