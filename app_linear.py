@@ -188,7 +188,7 @@ with col2:
 x_cols = selected_vars
 
 if len(x_cols) == 0:
-    st.warning("⚠️ Selecione ao menos uma variável independente para continuar.")
+    st.warning("✗ Selecione ao menos uma variável independente para continuar.")
     st.info("💡 **Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
     st.stop()
 
@@ -238,7 +238,7 @@ with col3:
     """, unsafe_allow_html=True)
 
 # Equação da regressão
-st.markdown("#### 🧮 Equação da Regressão")
+st.markdown("#### Equação da Regressão")
 eq_parts = [f"{modelo.intercept_:.2f}"]
 for coef, col in zip(modelo.coef_, x_cols):
     eq_parts.append(f"{coef:+.2f}×{col}")
@@ -247,7 +247,7 @@ eq = f"{y_col} = " + " ".join(eq_parts)
 st.code(eq, language="latex")
 
 # Coeficientes
-st.markdown("#### 📊 Impacto das Variáveis")
+st.markdown("#### Impacto das Variáveis")
 coef_df = pd.DataFrame({
     "Variável": x_cols,
     "Coeficiente": modelo.coef_,
@@ -332,7 +332,7 @@ with col2:
     st.markdown("#### 🧪 Teste de Sanidade")
     
     # Teste simples com dados conhecidos
-    if st.button("🔍 Rodar Teste de Validação"):
+    if st.button("Rodar Teste de Validação"):
         from sklearn.model_selection import train_test_split
         
         # Split treino/teste
@@ -356,7 +356,7 @@ with col2:
 
 # Exemplo de cálculo manual para validação
 st.markdown("#### 🧮 Cálculo Manual de Validação")
-if st.checkbox("🔢 Mostrar exemplo de cálculo manual"):
+if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
     sample_X = X.iloc[sample_idx].values
