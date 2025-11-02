@@ -44,6 +44,7 @@ st.dataframe(df.head())
 
 # Seleção das variáveis
 vars_numericas = df.select_dtypes(include=[np.number]).columns.tolist()
+vars_para_modelo = [v for v in vars_numericas if v not in ["SEASON_ID", "TEAM_ID", "GAME_ID"]]
 
 st.markdown("### Selecione as Variáveis para o Modelo")
 y_col = st.selectbox("Selecione a variável dependente (Y):", vars_numericas)
@@ -109,7 +110,7 @@ ax2.set_title("Comparação: Valores Reais vs Previstos")
 st.pyplot(fig2)
 
 # Gráfico 3: Tendência temporal (Predito x Real)
-fig3, ax3 = plt.subplots()
+fig3, ax3 = plt.subplots(figsize=(10,4))
 ax3.plot(df["Data do Jogo"], y, label="Real", marker="o")
 ax3.plot(df["Data do Jogo"], y_pred, label="Previsto", marker="x")
 ax3.fill_between(df["Data do Jogo"], y_pred - np.std(y_pred), y_pred + np.std(y_pred), color="gray", alpha=0.2)
@@ -117,4 +118,6 @@ ax3.legend()
 ax3.set_title("Tendência Temporal com Intervalo de Confiança")
 ax3.set_xlabel("Data do Jogo")
 ax3.set_ylabel(y_col)
+plt.xticks(rotation=45)  # ROTACIONA AS DATAS
+plt.tight_layout()
 st.pyplot(fig3)
