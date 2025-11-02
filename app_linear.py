@@ -161,7 +161,7 @@ var_categories = {
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### Variável Dependente (Y)")
+    st.markdown("#### ☘ Variável Dependente (Y)")
     st.markdown("*O que você quer prever?*")
     y_col = st.selectbox(
         "Selecione a variável alvo:",
@@ -170,7 +170,7 @@ with col1:
     )
 
 with col2:
-    st.markdown("#### Variáveis Independentes (X)")
+    st.markdown("#### ☘ Variáveis Independentes (X)")
     st.markdown("*Quais estatísticas influenciam a previsão?*")
     
     # Seleção por categorias
@@ -318,7 +318,7 @@ st.markdown("### ☘️ Validação do Modelo")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### ☘ Verificação Rápida")
+    st.markdown("#### ✧ Verificação Rápida")
     st.markdown("""
     **Para validar se o modelo está correto:**
     
@@ -329,7 +329,7 @@ with col1:
     """)
 
 with col2:
-    st.markdown("#### ☘ Teste de Sanidade")
+    st.markdown("#### ✧ Teste de Sanidade")
     
     # Teste simples com dados conhecidos
     if st.button("Rodar Teste de Validação"):
@@ -355,7 +355,7 @@ with col2:
             st.warning("✗ Pode haver overfitting - diferença grande entre treino e teste")
 
 # Exemplo de cálculo manual para validação
-st.markdown("#### ☘ Cálculo Manual de Validação")
+st.markdown("#### ✧ Cálculo Manual de Validação")
 if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
