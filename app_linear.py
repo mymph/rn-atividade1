@@ -197,8 +197,8 @@ with col2:
 x_cols = selected_vars
 
 if len(x_cols) == 0:
-    st.warning("⚠️ Selecione ao menos uma variável independente para continuar.")
-    st.info("💡 **Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
+    st.warning("Selecione ao menos uma variável independente para continuar.")
+    st.info("**Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
     st.stop()
 
 # === TREINAMENTO DO MODELO ===
