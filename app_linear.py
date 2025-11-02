@@ -104,7 +104,7 @@ df = carregar_dados()
 
 # === SIDEBAR PARA SELEÇÃO DE VARIÁVEIS ===
 with st.sidebar:
-    st.markdown("### 🏀 Configurações do Modelo")
+    st.markdown("### ☘️ Configurações do Modelo")
     st.markdown("---")
     
     # Filtro de jogos por data
@@ -125,7 +125,7 @@ with st.sidebar:
 
 # === SEÇÃO DE DADOS ===
 st.markdown("---")
-st.markdown("### 🍀 Visualização dos Dados")
+st.markdown("### ☘️ Visualização dos Dados")
 
 with st.expander("Clique para ver os dados da temporada", expanded=False):
     col1, col2 = st.columns([3,1])
@@ -135,14 +135,14 @@ with st.expander("Clique para ver os dados da temporada", expanded=False):
     
     with col2:
         st.markdown("#### Estatísticas Gerais")
-        st.metric("☘️ Total de Jogos", len(df))
+        st.metric("🍀 Total de Jogos", len(df))
         st.metric("🏆 Vitórias", len(df[df["Vitória/Derrota"] == "W"]))
         st.metric("💔 Derrotas", len(df[df["Vitória/Derrota"] == "L"]))
         st.metric("💚 Pontos por Jogo", f"{df['Pontos'].mean():.1f}")
 
 # === SELEÇÃO DE VARIÁVEIS ===
 st.markdown("---")
-st.markdown("### 🍀 Configuração do Modelo de Regressão")
+st.markdown("### ☘️ Configuração do Modelo de Regressão")
 
 # Definir variáveis que fazem sentido para o modelo (removendo IDs e colunas não numéricas)
 vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto", "Vitória/Derrota"]
@@ -151,17 +151,17 @@ vars_permitidas = [v for v in vars_numericas if v not in vars_nao_permitidas]
 
 # Organizar as variáveis por categoria
 var_categories = {
-    "🏀 Pontuação": ["Pontos", "Arremessos Convertidos", "Arremessos Tentados", "Percentual de Arremesso"],
-    "🎯 3 Pontos": ["Cestas de 3 Convertidas", "Cestas de 3 Tentativas", "Percentual de 3 Pontos"],
-    "🔄 Lances Livres": ["Lances Livres Convertidos", "Lances Livres Tentados", "Percentual de Lances Livres"],
-    "📊 Rebotes": ["Rebotes", "Rebotes Ofensivos", "Rebotes Defensivos"],
-    "📈 Outras Estatísticas": ["Assistências", "Roubos de Bola", "Tocos", "Erros (Turnovers)", "Faltas", "+/-"]
+    "Pontuação": ["Pontos", "Arremessos Convertidos", "Arremessos Tentados", "Percentual de Arremesso"],
+    "3 Pontos": ["Cestas de 3 Convertidas", "Cestas de 3 Tentativas", "Percentual de 3 Pontos"],
+    "Lances Livres": ["Lances Livres Convertidos", "Lances Livres Tentados", "Percentual de Lances Livres"],
+    "Rebotes": ["Rebotes", "Rebotes Ofensivos", "Rebotes Defensivos"],
+    "Outras Estatísticas": ["Assistências", "Roubos de Bola", "Tocos", "Erros (Turnovers)", "Faltas", "+/-"]
 }
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### 🎯 Variável Dependente (Y)")
+    st.markdown("#### Variável Dependente (Y)")
     st.markdown("*O que você quer prever?*")
     y_col = st.selectbox(
         "Selecione a variável alvo:",
@@ -170,7 +170,7 @@ with col1:
     )
 
 with col2:
-    st.markdown("#### 📊 Variáveis Independentes (X)")
+    st.markdown("#### Variáveis Independentes (X)")
     st.markdown("*Quais estatísticas influenciam a previsão?*")
     
     # Seleção por categorias
@@ -201,7 +201,7 @@ modelo.fit(X, y)
 
 # === RESULTADOS ===
 st.markdown("---")
-st.markdown("### 🍀 Resultados da Regressão Linear")
+st.markdown("### ☘️ Resultados da Regressão Linear")
 
 # Métricas em cards
 y_pred = modelo.predict(X)
@@ -262,7 +262,7 @@ st.dataframe(coef_df[["Variável", "Coeficiente", "Influência"]], use_container
 
 # === GRÁFICOS ===
 st.markdown("---")
-st.markdown("### 🍀 Visualizações")
+st.markdown("### ☘️ Visualizações")
 
 tab1, tab2, tab3 = st.tabs(["Dispersão", "Reais vs Previstos", "Tendência Temporal"])
 
@@ -313,7 +313,7 @@ with tab3:
 
 # === VALIDAÇÃO DO MODELO ===
 st.markdown("---")
-st.markdown("### 🍀 Validação do Modelo")
+st.markdown("### ☘️ Validação do Modelo")
 
 col1, col2 = st.columns(2)
 
