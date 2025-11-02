@@ -15,7 +15,7 @@ def carregar_dados():
     df = gamelog.get_data_frames()[0]
     # Limpeza e organização básica
     df = df[['GAME_DATE', 'MATCHUP', 'WL', 'PTS', 'REB', 'AST', 'FGM', 'FGA', 'FG3M', 'FG3A', 'TOV']]
-    df['GAME_DATE'] = pdF.to_datetime(df['GAME_DATE'])
+    df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'])
     df = df.sort_values('GAME_DATE')
     return df
 
