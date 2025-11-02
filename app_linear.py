@@ -47,6 +47,12 @@ st.markdown("""
         background-color: #005A25;
         color: white;
     }
+    .section-spacing {
+        margin-bottom: 2rem;
+    }
+    .subsection-spacing {
+        margin-bottom: 1.5rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -188,7 +194,7 @@ with col2:
 x_cols = selected_vars
 
 if len(x_cols) == 0:
-    st.warning("✗ Selecione ao menos uma variável independente para continuar.")
+    st.warning("⚠️ Selecione ao menos uma variável independente para continuar.")
     st.info("💡 **Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
     st.stop()
 
@@ -237,14 +243,20 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
+# Espaço entre seções
+st.markdown('<div class="subsection-spacing"></div>', unsafe_allow_html=True)
+
 # Equação da regressão
 st.markdown("#### Equação da Regressão")
 eq_parts = [f"{modelo.intercept_:.2f}"]
 for coef, col in zip(modelo.coef_, x_cols):
-    eq_parts.append(f"{coef:+.2f}×{col}")
+    eq_parts.append(f"{coef:+.2f} × {col}")  # Adicionado espaço antes e depois do ×
 
 eq = f"{y_col} = " + " ".join(eq_parts)
 st.code(eq, language="latex")
+
+# Espaço entre seções
+st.markdown('<div class="subsection-spacing"></div>', unsafe_allow_html=True)
 
 # Coeficientes
 st.markdown("#### Impacto das Variáveis")
@@ -258,7 +270,19 @@ coef_df["Influência"] = coef_df["Coeficiente"].apply(
     lambda x: "🟢 Positiva" if x > 0 else "🔴 Negativa" if x < 0 else "⚪ Neutra"
 )
 
-st.dataframe(coef_df[["Variável", "Coeficiente", "Influência"]], use_container_width=True)
+# Configurar o dataframe para alinhamento à esquerda
+st.dataframe(
+    coef_df[["Variável", "Coeficiente", "Influência"]], 
+    use_container_width=True,
+    column_config={
+        "Variável": st.column_config.Column(width="medium"),
+        "Coeficiente": st.column_config.NumberColumn(
+            width="small",
+            format="%.4f"
+        ),
+        "Influência": st.column_config.Column(width="small")
+    }
+)
 
 # === GRÁFICOS ===
 st.markdown("---")
@@ -318,7 +342,7 @@ st.markdown("### ☘️ Validação do Modelo")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### ✧ Verificação Rápida")
+    st.markdown("#### ➣ Verificação Rápida")
     st.markdown("""
     **Para validar se o modelo está correto:**
     
@@ -328,8 +352,11 @@ with col1:
     ✓ **Previsões próximas da linha**: No gráfico Real vs Previsto
     """)
 
+# Espaço entre subseções
+st.markdown('<div class="subsection-spacing"></div>', unsafe_allow_html=True)
+
 with col2:
-    st.markdown("#### ✧ Teste de Sanidade")
+    st.markdown("#### ➣ Teste de Sanidade")
     
     # Teste simples com dados conhecidos
     if st.button("Rodar Teste de Validação"):
@@ -354,8 +381,11 @@ with col2:
         else:
             st.warning("✗ Pode haver overfitting - diferença grande entre treino e teste")
 
+# Espaço entre subseções
+st.markdown('<div class="subsection-spacing"></div>', unsafe_allow_html=True)
+
 # Exemplo de cálculo manual para validação
-st.markdown("#### ✧ Cálculo Manual de Validação")
+st.markdown("#### ➣ Cálculo Manual de Validação")
 if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
