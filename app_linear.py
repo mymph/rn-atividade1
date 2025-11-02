@@ -53,7 +53,7 @@ st.markdown("""
 # === Função para carregar os dados salvos ===
 @st.cache_data
 def carregar_dados():
-    df = pd.read_csv("celtics_2025_26.csv")
+    df = pd.read_csv("celtics_2024_25.csv")
     df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"])
     df = df.sort_values("GAME_DATE")
 
@@ -87,7 +87,7 @@ def carregar_dados():
 
 # === HEADER PERSONALIZADO ===
 st.markdown('<h1 class="main-header">🏀 Celtics Stats Analyzer</h1>', unsafe_allow_html=True)
-st.markdown('<div class="celtics-green"><h3 style="margin:0; text-align:center;">Análise de Desempenho - Temporada 2025/26</h3></div>', unsafe_allow_html=True)
+st.markdown('<div class="celtics-green"><h3 style="margin:0; text-align:center;">Análise de Desempenho - Temporada 2024/25</h3></div>', unsafe_allow_html=True)
 
 # === INTRODUÇÃO ===
 with st.container():
@@ -312,9 +312,62 @@ with tab3:
     st.pyplot(fig3)
 
 # === FOOTER ===
+# === VALIDAÇÃO DO MODELO ===
 st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: #666;'>
-    <p>🏀 Boston Celtics Stats Analyzer | Temporada 2025-26</p>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("### ✅ Validação do Modelo")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("#### 📋 Verificação Rápida")
+    st.markdown("""
+    **Para validar se o modelo está correto:**
+    
+    - ✅ **R² entre 0-1**: Quanto mais próximo de 1, melhor
+    - ✅ **Coeficientes coerentes**: Ex: Mais assistências → Mais pontos (coef positivo)
+    - ✅ **Resíduos aleatórios**: Sem padrões óbvios no gráfico
+    - ✅ **Previsões próximas da linha**: No gráfico Real vs Previsto
+    """)
+
+with col2:
+    st.markdown("#### 🧪 Teste de Sanidade")
+    
+    # Teste simples com dados conhecidos
+    if st.button("Rodar Teste de Validação"):
+        from sklearn.model_selection import train_test_split
+        
+        # Split treino/teste
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        
+        # Treinar novo modelo
+        model_test = LinearRegression()
+        model_test.fit(X_train, y_train)
+        
+        # Prever no teste
+        y_pred_test = model_test.predict(X_test)
+        r2_test = r2_score(y_test, y_pred_test)
+        
+        st.success(f"✅ R² no conjunto de teste: {r2_test:.3f}")
+        st.info(f"📊 Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
+        
+        if abs(r2 - r2_test) < 0.2:
+            st.success("🎯 Modelo está generalizando bem!")
+        else:
+            st.warning("⚠️ Pode haver overfitting - diferença grande entre treino e teste")
+
+# Exemplo de cálculo manual para validação
+st.markdown("#### 🔍 Cálculo Manual de Validação")
+if st.checkbox("Mostrar exemplo de cálculo manual"):
+    # Pegar primeira linha como exemplo
+    sample_idx = 0
+    sample_X = X.iloc[sample_idx].values
+    manual_pred = modelo.intercept_ + np.sum(modelo.coef_ * sample_X)
+    
+    st.write(f"**Exemplo para o jogo {sample_idx + 1}:**")
+    st.write(f"- Valores reais: {X.iloc[sample_idx].to_dict()}")
+    st.write(f"- Predição do modelo: {y_pred[sample_idx]:.2f}")
+    st.write(f"- Cálculo manual: {manual_pred:.2f}")
+    st.write(f"- Valor real de {y_col}: {y.iloc[sample_idx]:.2f}")
+    
+    if abs(manual_pred - y_pred[sample_idx]) < 0.01:
+        st.success("✅ Cálculos batem! Modelo está correto.")
