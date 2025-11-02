@@ -47,6 +47,12 @@ st.markdown("""
         background-color: #005A25;
         color: white;
     }
+    .section-header {
+        border-bottom: 2px solid #007A33;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        color: #007A33;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -86,7 +92,7 @@ def carregar_dados():
     return df
 
 # === HEADER PERSONALIZADO ===
-st.markdown('<h1 class="main-header">🏀 Celtics Stats Analyzer</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">Celtics Stats Analyzer</h1>', unsafe_allow_html=True)
 st.markdown('<div class="celtics-green"><h3 style="margin:0; text-align:center;">Análise de Desempenho - Temporada 2024/25</h3></div>', unsafe_allow_html=True)
 
 # === INTRODUÇÃO ===
@@ -104,11 +110,11 @@ df = carregar_dados()
 
 # === SIDEBAR PARA SELEÇÃO DE VARIÁVEIS ===
 with st.sidebar:
-    st.markdown("### Configurações do Modelo")
+    st.markdown("### > Configurações do Modelo")
     st.markdown("---")
     
     # Filtro de jogos por data
-    st.markdown("**📅 Filtro por Data**")
+    st.markdown("**Filtro por Data**")
     min_date = df["Data do Jogo"].min()
     max_date = df["Data do Jogo"].max()
     date_range = st.date_input(
@@ -125,7 +131,7 @@ with st.sidebar:
 
 # === SEÇÃO DE DADOS ===
 st.markdown("---")
-st.markdown("### Visualização dos Dados")
+st.markdown('<h3 class="section-header">▸ Visualização dos Dados</h3>', unsafe_allow_html=True)
 
 with st.expander("Clique para ver os dados da temporada", expanded=False):
     col1, col2 = st.columns([3,1])
@@ -134,7 +140,7 @@ with st.expander("Clique para ver os dados da temporada", expanded=False):
         st.dataframe(df, use_container_width=True)
     
     with col2:
-        st.markdown("#### Estatísticas Gerais")
+        st.markdown("#### • Estatísticas Gerais")
         st.metric("Total de Jogos", len(df))
         st.metric("Vitórias", len(df[df["Vitória/Derrota"] == "W"]))
         st.metric("Derrotas", len(df[df["Vitória/Derrota"] == "L"]))
@@ -142,7 +148,7 @@ with st.expander("Clique para ver os dados da temporada", expanded=False):
 
 # === SELEÇÃO DE VARIÁVEIS ===
 st.markdown("---")
-st.markdown("### Configuração do Modelo de Regressão")
+st.markdown('<h3 class="section-header">▸ Configuração do Modelo de Regressão</h3>', unsafe_allow_html=True)
 
 # Definir variáveis que fazem sentido para o modelo (removendo IDs e colunas não numéricas)
 vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto", "Vitória/Derrota"]
@@ -161,7 +167,7 @@ var_categories = {
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### Variável Dependente (Y)")
+    st.markdown("#### • Variável Dependente (Y)")
     st.markdown("*O que você quer prever?*")
     y_col = st.selectbox(
         "Selecione a variável alvo:",
@@ -170,7 +176,7 @@ with col1:
     )
 
 with col2:
-    st.markdown("#### Variáveis Independentes (X)")
+    st.markdown("#### • Variáveis Independentes (X)")
     st.markdown("*Quais estatísticas influenciam a previsão?*")
     
     # Seleção por categorias
@@ -179,7 +185,7 @@ with col2:
         # Mostrar apenas variáveis que existem no dataframe
         available_vars = [v for v in variables if v in vars_permitidas]
         if available_vars:
-            with st.expander(f"{category}", expanded=False):
+            with st.expander(f"▸ {category}", expanded=False):
                 for var in available_vars:
                     if st.checkbox(var, key=f"check_{var}"):
                         selected_vars.append(var)
@@ -188,8 +194,8 @@ with col2:
 x_cols = selected_vars
 
 if len(x_cols) == 0:
-    st.warning("⚠️ Selecione ao menos uma variável independente para continuar.")
-    st.info("💡 **Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
+    st.warning("Selecione ao menos uma variável independente para continuar.")
+    st.info("**Dica:** Tente selecionar variáveis como 'Arremessos Convertidos', 'Cestas de 3 Tentativas' ou 'Rebotes' para prever 'Pontos'")
     st.stop()
 
 # === TREINAMENTO DO MODELO ===
@@ -201,7 +207,7 @@ modelo.fit(X, y)
 
 # === RESULTADOS ===
 st.markdown("---")
-st.markdown("### 📈 Resultados da Regressão Linear")
+st.markdown('<h3 class="section-header">▸ Resultados da Regressão Linear</h3>', unsafe_allow_html=True)
 
 # Métricas em cards
 y_pred = modelo.predict(X)
@@ -238,7 +244,7 @@ with col3:
     """, unsafe_allow_html=True)
 
 # Equação da regressão
-st.markdown("#### Equação da Regressão")
+st.markdown("#### • Equação da Regressão")
 eq_parts = [f"{modelo.intercept_:.2f}"]
 for coef, col in zip(modelo.coef_, x_cols):
     eq_parts.append(f"{coef:+.2f}×{col}")
@@ -247,7 +253,7 @@ eq = f"{y_col} = " + " ".join(eq_parts)
 st.code(eq, language="latex")
 
 # Coeficientes
-st.markdown("#### Impacto das Variáveis")
+st.markdown("#### • Impacto das Variáveis")
 coef_df = pd.DataFrame({
     "Variável": x_cols,
     "Coeficiente": modelo.coef_,
@@ -255,16 +261,16 @@ coef_df = pd.DataFrame({
 }).sort_values("Impacto Absoluto", ascending=False)
 
 coef_df["Influência"] = coef_df["Coeficiente"].apply(
-    lambda x: "🟢 Positiva" if x > 0 else "🔴 Negativa" if x < 0 else "⚪ Neutra"
+    lambda x: "Positiva" if x > 0 else "Negativa" if x < 0 else "Neutra"
 )
 
 st.dataframe(coef_df[["Variável", "Coeficiente", "Influência"]], use_container_width=True)
 
 # === GRÁFICOS ===
 st.markdown("---")
-st.markdown("### Visualizações")
+st.markdown('<h3 class="section-header">▸ Visualizações</h3>', unsafe_allow_html=True)
 
-tab1, tab2, tab3 = st.tabs(["📈 Dispersão", "🔍 Reais vs Previstos", "📅 Tendência Temporal"])
+tab1, tab2, tab3 = st.tabs(["Dispersão", "Reais vs Previstos", "Tendência Temporal"])
 
 with tab1:
     if len(x_cols) == 1:
@@ -278,10 +284,10 @@ with tab1:
         ax.grid(True, alpha=0.3)
         st.pyplot(fig)
     else:
-        st.info("🎯 O gráfico de dispersão é exibido apenas quando há uma única variável independente.")
+        st.info("O gráfico de dispersão é exibido apenas quando há uma única variável independente.")
         
         # Mostrar matriz de correlação para múltiplas variáveis
-        st.markdown("#### 🔗 Matriz de Correlação")
+        st.markdown("#### • Matriz de Correlação")
         corr_data = df[x_cols + [y_col]].corr()
         fig_corr, ax_corr = plt.subplots(figsize=(10, 8))
         sns.heatmap(corr_data, annot=True, cmap="RdYlGn", center=0, ax=ax_corr)
@@ -311,15 +317,14 @@ with tab3:
     plt.tight_layout()
     st.pyplot(fig3)
 
-# === FOOTER ===
 # === VALIDAÇÃO DO MODELO ===
 st.markdown("---")
-st.markdown("### Validação do Modelo")
+st.markdown('<h3 class="section-header">▸ Validação do Modelo</h3>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### 📋 Verificação Rápida")
+    st.markdown("#### • Verificação Rápida")
     st.markdown("""
     **Para validar se o modelo está correto:**
     
@@ -330,7 +335,7 @@ with col1:
     """)
 
 with col2:
-    st.markdown("#### Teste de Sanidade")
+    st.markdown("#### • Teste de Sanidade")
     
     # Teste simples com dados conhecidos
     if st.button("Rodar Teste de Validação"):
@@ -351,12 +356,12 @@ with col2:
         st.info(f"Comparação - Treino: {r2:.3f} | Teste: {r2_test:.3f}")
         
         if abs(r2 - r2_test) < 0.2:
-            st.success("✅ Modelo está generalizando bem!")
+            st.success("Modelo está generalizando bem!")
         else:
-            st.warning("⚠️ Pode haver overfitting - diferença grande entre treino e teste")
+            st.warning("Pode haver overfitting - diferença grande entre treino e teste")
 
 # Exemplo de cálculo manual para validação
-st.markdown("#### Cálculo Manual de Validação")
+st.markdown("#### • Cálculo Manual de Validação")
 if st.checkbox("Mostrar exemplo de cálculo manual"):
     # Pegar primeira linha como exemplo
     sample_idx = 0
@@ -366,8 +371,16 @@ if st.checkbox("Mostrar exemplo de cálculo manual"):
     st.write(f"**Exemplo para o jogo {sample_idx + 1}:**")
     st.write(f"- Valores reais: {X.iloc[sample_idx].to_dict()}")
     st.write(f"- Predição do modelo: {y_pred[sample_idx]:.2f}")
-    st.write(f"- Cálculo manual: {manual_pred:.2f}")
+    st.write(f"- Cálculo manual: {manual_pred:..2f}")
     st.write(f"- Valor real de {y_col}: {y.iloc[sample_idx]:.2f}")
     
     if abs(manual_pred - y_pred[sample_idx]) < 0.01:
-        st.success("✅ Cálculos batem! Modelo está correto.")
+        st.success("Cálculos batem! Modelo está correto.")
+
+# === FOOTER ===
+st.markdown("---")
+st.markdown("""
+<div style='text-align: center; color: #666;'>
+    <p>Boston Celtics Stats Analyzer | Temporada 2024-25</p>
+</div>
+""", unsafe_allow_html=True)
