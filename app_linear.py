@@ -392,11 +392,15 @@ if st.checkbox("Mostrar exemplo de cálculo manual"):
     sample_X = X.iloc[sample_idx].values
     manual_pred = modelo.intercept_ + np.sum(modelo.coef_ * sample_X)
     
-    st.write(f"**Exemplo para o jogo {sample_idx + 1}:**")
-    st.write(f"- Valores reais: {X.iloc[sample_idx].to_dict()}")
-    st.write(f"- Predição do modelo: {y_pred[sample_idx]:.2f}")
-    st.write(f"- Cálculo manual: {manual_pred:.2f}")
-    st.write(f"- Valor real de {y_col}: {y.iloc[sample_idx]:.2f}")
+    st.markdown(f"""
+    <h4>⌖ Exemplo para o jogo {sample_idx + 1}</h4>
+    <ul style="list-style-type:none; padding-left:0; line-height:1.6;">
+    <li>• <b>Valores reais:</b> {X.iloc[sample_idx].to_dict()}</li>
+    <li>• <b>Predição do modelo:</b> {y_pred[sample_idx]:.2f}</li>
+    <li>• <b>Cálculo manual:</b> {manual_pred:.2f}</li>
+    <li>• <b>Valor real de {y_col}:</b> {y.iloc[sample_idx]:.2f}</li>
+    </ul>
+    """, unsafe_allow_html=True)
     
     if abs(manual_pred - y_pred[sample_idx]) < 0.01:
         st.success("✓ Cálculos batem! Modelo está correto.")
