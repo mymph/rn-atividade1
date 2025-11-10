@@ -154,7 +154,7 @@ st.markdown("---")
 st.markdown("### ☘️ Configuração do Modelo de Regressão")
 
 # Definir variáveis que fazem sentido para o modelo (removendo IDs e colunas não numéricas)
-vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto", "Vitória/Derrota"]
+vars_nao_permitidas = ["SEASON_ID", "TEAM_ID", "GAME_ID", "Data do Jogo", "Confronto"]
 vars_numericas = df.select_dtypes(include=[np.number]).columns.tolist()
 vars_permitidas = [v for v in vars_numericas if v not in vars_nao_permitidas]
 
@@ -164,7 +164,7 @@ var_categories = {
     "3 Pontos": ["Cestas de 3 Convertidas", "Cestas de 3 Tentativas", "Percentual de 3 Pontos"],
     "Lances Livres": ["Lances Livres Convertidos", "Lances Livres Tentados", "Percentual de Lances Livres"],
     "Rebotes": ["Rebotes", "Rebotes Ofensivos", "Rebotes Defensivos"],
-    "Outras Estatísticas": ["Assistências", "Roubos de Bola", "Tocos", "Erros (Turnovers)", "Faltas", "+/-"]
+    "Outras Estatísticas": ["Vitória/Derrota", "Assistências", "Roubos de Bola", "Tocos", "Erros (Turnovers)", "Faltas", "+/-"]
 }
 
 col1, col2 = st.columns(2)
