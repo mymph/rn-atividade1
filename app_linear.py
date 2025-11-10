@@ -92,6 +92,8 @@ def carregar_dados():
         "PLUS_MINUS": "+/-"
     })
 
+    df["Vitória"] = (df["Vitória/Derrota"] == "W").astype(int)
+
     return df
 
 # === HEADER PERSONALIZADO ===
